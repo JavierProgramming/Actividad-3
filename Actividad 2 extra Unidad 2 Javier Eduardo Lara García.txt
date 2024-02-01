@@ -1,0 +1,49 @@
+// Function to generate a random card value between 1 and 11
+function generateRandomCardValue() {
+  return Math.floor(Math.random() * 11) + 1;
+}
+
+// Function to calculate the total value of the given cards
+function calculateTotal(cards) {
+  return cards.reduce((total, card) => total + card, 0);
+}
+
+// Function to start a new game
+function startGame() {
+  const computerCards = [generateRandomCardValue(), generateRandomCardValue()];
+  const userCards = [generateRandomCardValue(), generateRandomCardValue()];
+
+  let playing = true;
+
+  while (playing) {
+    const userTotal = calculateTotal(userCards);
+
+    if (userTotal > 21) {
+      alert(`Lo siento, tu total es ${userTotal}, suerte para la próxima`);
+      alert(`La computadora tiene ${calculateTotal(computerCards)}`);
+      playing = false;
+    } else {
+      const userResponse = prompt(`¿Desea otra carta? Actualmente el valor de tus cartas suma: ${userTotal}`.toUpperCase(), 'SI');
+
+      if (userResponse === 'SI' || userResponse === 'SÍ') {
+        userCards.push(generateRandomCardValue());
+      } else {
+        alert(`La computadora tiene ${calculateTotal(computerCards)}`);
+        alert(`El jugador tiene ${userTotal}`);
+
+        if (calculateTotal(computerCards) > userTotal && calculateTotal(computerCards) <= 21) {
+          alert('Lo siento, ha perdido');
+        } else if (calculateTotal(computerCards) < userTotal && userTotal <= 21) {
+          alert('Enhorabuena, ha ganado');
+        } else {
+          alert('Empate');
+        }
+
+        playing = false;
+      }
+    }
+  }
+}
+
+// Start the game
+startGame();
